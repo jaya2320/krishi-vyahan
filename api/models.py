@@ -8,12 +8,12 @@ class Transport(models.Model):
         ('PRODUCT','PRODUCT')
     )
     company_name = models.CharField(max_length =50,null = True, blank=True)
-    contact_no = models.CharField(max_length =10,null = True, blank=True)
+    contact_no = models.CharField(max_length =12,null = True, blank=True)
     profile_pic =  models.ImageField(upload_to='transport/profile_image/',default='default.ico',null = True, blank=True)
     address = models.CharField(max_length =50,null = True, blank=True)
     availability = models.CharField(max_length =50,null = True, blank=True)
     category = models.CharField(
-        max_length=10, choices=category_options, default="CROP",null = True, blank=True)
+        max_length=20, choices=category_options, default="CROP",null = True, blank=True)
 
 class Lab(models.Model):
     lab_options = (
@@ -22,11 +22,11 @@ class Lab(models.Model):
     )
     location = models.CharField(max_length =50,null = True, blank=True)
     lab_name = models.CharField(max_length =50,null = True, blank=True)
-    contact_info = models.CharField(max_length =10,null = True, blank=True)
+    contact_info = models.CharField(max_length =12,null = True, blank=True)
     charges = models.IntegerField(null = True, blank=True)
     test_name = models.CharField(max_length =500,null = True, blank=True)
     testing_at = models.CharField(
-        max_length=10, choices=lab_options, default="LAB",null = True, blank=True)
+        max_length=20, choices=lab_options, default="LAB",null = True, blank=True)
 
 class Insuarance(models.Model):
     company_name = models.CharField(max_length =50,null = True, blank=True)
