@@ -7,9 +7,23 @@ class LabSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 class TransportSerializer(serializers.ModelSerializer):
+    def get_profile_image(self,obj):
+        try:
+            request = self.context.get('request')
+            return 'https://krishi-vyahan.herokuapp.com' + obj.profile_pic.url
+        except:
+            return None
+    profile_image = serializers.SerializerMethodField()
     class Meta:
         model = Transport
-        fields= '__all__'
+        fields= [
+            'company_name',
+            'contact_no',
+            'profile_image',
+            'address' ,
+            'availability' ,
+            'category',
+        ]
 
 class InsuaranceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,12 +57,43 @@ class CropSeasonPredictionSerializer(serializers.Serializer):
 
 
 class SellerSerializer(serializers.ModelSerializer):
+    def get_profile_image(self,obj):
+        try:
+            request = self.context.get('request')
+            
+            return 'https://krishi-vyahan.herokuapp.com' + obj.profile_pic.url
+        except:
+            return None
+    profile_image = serializers.SerializerMethodField()
     class Meta:
         model = Seller
-        fields= '__all__'
+        fields= [
+                'seller_name',
+                'item_name',
+                'quantity' ,
+                'price',
+                'district' ,
+                'state',
+                'country',
+                'contact' ,
+                'profile_image',
+                'price_with_transportation'
+        ]
 
 
 class ShopSerializer(serializers.ModelSerializer):
+    def get_item_image(self,obj):
+        try:
+            request = self.context.get('request')
+            return 'https://krishi-vyahan.herokuapp.com' + obj.item_pic.url
+        except:
+            return None
+    item_image = serializers.SerializerMethodField()
     class Meta:
         model = Shop
-        fields= '__all__'
+        fields= [
+                'item_name',
+                'price',
+                'quantity',
+                'item_image',
+        ]

@@ -121,7 +121,7 @@ class SellerView(APIView):
     def get(self,request):
         try:
             sellers = Seller.objects.all()
-            seller_data = SellerSerializer(sellers,many=True)
+            seller_data = SellerSerializer(sellers,many=True, context={'request':request})
             return Response({'seller':seller_data.data})
         except Exception as e:
             print(e)
