@@ -77,9 +77,9 @@ class CropAnalysis(APIView):
                 return Response({"status": "failed", "message": "in else"}, status=status.HTTP_400_BAD_REQUEST)
         
 
-summercrops = ['paddy','maize','brinjal','tomato','watermelon','bitter gourd','onion','pigeonpeas' 'mothbeans' 'blackgram' 'mango' 'grapes' 'orange' 'papaya']
-wintercrops = ['maize' 'pigeonpeas' 'lentil' 'pomegranate' 'grapes' 'orange','barley,','gram','mustard','oat','grapes','guava','lemon','radish']
-rainycrops = ['rice' 'papaya' 'coconut','cucumber','tomato','radish','beans','green chilies','okra','brinjal','cotton','sugarcane','tea']
+summercrops = ['paddy','maize','brinjal','tomato','watermelon','bitter gourd','onion','pigeonpeas', 'mothbeans', 'blackgram', 'mango', 'grapes' ,'orange', 'papaya']
+wintercrops = ['maize' ,'pigeonpeas' ,'lentil', 'pomegranate', 'grapes', 'orange','barley,','gram','mustard','oat','grapes','guava','lemon','radish']
+rainycrops = ['rice', 'papaya', 'coconut','cucumber','tomato','radish','beans','green chilies','okra','brinjal','cotton','sugarcane','tea']
         
 class CropSeasonPrediction(APIView):
     serializer_class = CropSeasonPredictionSerializer
