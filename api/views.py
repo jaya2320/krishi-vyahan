@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.http import JsonResponse
 from .models import *
 from rest_framework import serializers, status
 from .serializers import *
 import pickle
 import joblib
+import json
 import pandas as pd
 
 
@@ -80,7 +82,33 @@ class CropAnalysis(APIView):
 summercrops = ['paddy','maize','brinjal','tomato','watermelon','bitter gourd','onion','pigeonpeas', 'mothbeans', 'blackgram', 'mango', 'grapes' ,'orange', 'papaya']
 wintercrops = ['maize' ,'pigeonpeas' ,'lentil', 'pomegranate', 'grapes', 'orange','barley,','gram','mustard','oat','grapes','guava','lemon','radish']
 rainycrops = ['rice', 'papaya', 'coconut','cucumber','tomato','radish','beans','green chilies','okra','brinjal','cotton','sugarcane','tea']
+data = pd.read_csv("Crop_recommendation.csv")
+list_of_label = (data['label'].unique())
+class NutritionView(APIView):
+    serializer_class = NutritionSerializer
+    def post(self,request):
+        serializer = self.serializer_class(data = request.data)
         
+        if serializer.is_valid():
+             
+                crop_name = serializer.validated_data.get("crop_name")
+                if crop_name in list_of_label:
+                    result = (data[data['label']==crop_name]).to_json(orient="records")
+                elif crop_name in summercrops:
+                    result = (data[data['label']=="maize"]).to_json(orient="records")
+                elif crop_name in wintercrops:
+                    result = (data[data['label']=="grapes"]).to_json(orient="records")
+                elif crop_name in rainycrops:
+                    result = (data[data['label']=="coconut"]).to_json(orient="records")
+                else:
+                    result = (data[data['label']=="maize"]).to_json(orient="records")
+
+                return JsonResponse(json.loads(result), safe = False)
+        else:
+            return Response({"status":"failes"})
+
+
+
 class CropSeasonPrediction(APIView):
     serializer_class = CropSeasonPredictionSerializer
     def post(self,request):
@@ -140,3 +168,4 @@ class ShopView(APIView):
 
 def index(request):
     return render(request,'index.html')
+

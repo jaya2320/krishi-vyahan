@@ -97,3 +97,6 @@ class ShopSerializer(serializers.ModelSerializer):
                 'quantity',
                 'item_image',
         ]
+
+class NutritionSerializer(serializers.Serializer):
+    crop_name = serializers.CharField(max_length = 200)
