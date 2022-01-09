@@ -101,7 +101,7 @@ class NutritionView(APIView):
                 elif crop_name in rainycrops:
                     result = (data[data['label']=="coconut"].head()).to_json(orient="records")
                 else:
-                    result = (data[data['label']=="maize"].head()).to_json(orient="records")
+                    return Response({"status":"incorrect value"})
 
                 return JsonResponse(json.loads(result), safe = False)
         else:
