@@ -93,19 +93,19 @@ class NutritionView(APIView):
              
                 crop_name = serializer.validated_data.get("crop_name")
                 if crop_name in list_of_label:
-                    result = (data[data['label']==crop_name]).to_json(orient="records")
+                    result = (data[data['label']==crop_name].head()).to_json(orient="records")
                 elif crop_name in summercrops:
-                    result = (data[data['label']=="maize"]).to_json(orient="records")
+                    result = (data[data['label']=="maize"].head()).to_json(orient="records")
                 elif crop_name in wintercrops:
-                    result = (data[data['label']=="grapes"]).to_json(orient="records")
+                    result = (data[data['label']=="grapes"].head()).to_json(orient="records")
                 elif crop_name in rainycrops:
-                    result = (data[data['label']=="coconut"]).to_json(orient="records")
+                    result = (data[data['label']=="coconut"].head()).to_json(orient="records")
                 else:
-                    result = (data[data['label']=="maize"]).to_json(orient="records")
+                    result = (data[data['label']=="maize"].head()).to_json(orient="records")
 
                 return JsonResponse(json.loads(result), safe = False)
         else:
-            return Response({"status":"failes"})
+            return Response({"status":"failed"})
 
 
 
