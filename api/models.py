@@ -1,3 +1,5 @@
+from distutils.command.upload import upload
+from tkinter import CASCADE
 from django.db import models
 
 # Create your models here.
@@ -52,5 +54,22 @@ class Shop(models.Model):
     price = models.CharField(max_length =255,null = True, blank=True)
     quantity = models.CharField(max_length =255,null = True, blank=True)
     item_pic = models.ImageField(upload_to='shop/profile_image/',default='default.ico',null = True, blank=True)
+
+class ReUpyog(models.Model):
+    category=models.CharField(max_length=255,null=False,blank=False)
+
+
+class ReupyogArticle(models.Model):
+    category=models.ForeignKey(ReUpyog,on_delete=models.CASCADE)
+    images=models.ImageField(upload_to='reupyog/article_images/',default='default.ico',null = True, blank=True)
+    title=models.CharField(max_length=255,null=True)
+    link=models.URLField(null=True)
+
+class Reupyogvideo(models.Model):
+    category=models.ForeignKey(ReUpyog,on_delete=models.CASCADE)
+    title=models.CharField(max_length=255,null=True)
+    video_link=models.URLField(null=True)
+
+
 
 

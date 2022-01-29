@@ -21,3 +21,15 @@ class SellerAdmin(admin.ModelAdmin):
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):
     list_display = ['id','item_name','price','quantity','item_pic']
+
+@admin.register(ReUpyog)
+class ReUpyogAdmin(admin.ModelAdmin):
+    list_display = ['id','category']
+
+@admin.register(ReupyogArticle)
+class ReupyogArticleAdmin(admin.ModelAdmin):
+    list_display = ['id','category','title','images','link']
+
+@admin.register(Reupyogvideo)
+class ReupyogvideoAdmin(admin.ModelAdmin):
+    list_display = ['id','category','title','video_link']

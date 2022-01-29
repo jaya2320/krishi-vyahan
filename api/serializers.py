@@ -1,3 +1,7 @@
+from dataclasses import field
+from django.http import request
+
+from django.template import context
 from . models import *
 from rest_framework import serializers, status
 
@@ -100,3 +104,53 @@ class ShopSerializer(serializers.ModelSerializer):
 
 class NutritionSerializer(serializers.Serializer):
     crop_name = serializers.CharField(max_length = 200)
+
+class ReupyogarticleSerializer(serializers.ModelSerializer):
+    def get_article_image(self,obj):
+        try:
+            
+            return 'https://krishi-vyahan.herokuapp.com' + obj.images.url
+        except:
+            return None
+    article_image = serializers.SerializerMethodField()
+    class Meta:
+        model=ReupyogArticle
+        fields=[
+            'title',
+            'article_image',
+            'link'
+        ]
+
+class ReupyogvideoSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model=Reupyogvideo
+        fields=[
+            'title',
+            'video_link'
+        ]
+
+
+class ReupyogSerializer(serializers.ModelSerializer):
+
+    def get_Article(self,obj):
+        articles=ReupyogArticle.objects.filter(category=obj)
+        article_list=ReupyogarticleSerializer(articles,many=True)
+        return article_list.data
+    
+    def get_Video(self,obj):
+        videos=Reupyogvideo.objects.filter(category=obj)
+        video_list=ReupyogvideoSerializer(videos,many=True)
+        return video_list.data
+    
+    Article = serializers.SerializerMethodField()
+    Video = serializers.SerializerMethodField()
+
+    class Meta:
+        model=ReUpyog
+        fields=[
+            'category',
+            'Article',
+            'Video'
+            ]

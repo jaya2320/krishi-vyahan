@@ -84,6 +84,7 @@ wintercrops = ['maize' ,'pigeonpeas' ,'lentil', 'pomegranate', 'grapes', 'orange
 rainycrops = ['rice', 'papaya', 'coconut','cucumber','tomato','radish','beans','green chilies','okra','brinjal','cotton','sugarcane','tea']
 data = pd.read_csv("Crop_recommendation.csv")
 list_of_label = (data['label'].unique())
+
 class NutritionView(APIView):
     serializer_class = NutritionSerializer
     def post(self,request):
@@ -166,6 +167,20 @@ class ShopView(APIView):
             print(e)
             return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+class ReupyogAPI(APIView):
+    serializer_class=ReupyogSerializer
+    def get(self,request):
+        try:
+            category_id=self.request.query_params.get('category_id')
+            category=ReUpyog.objects.get(id=category_id)
+            reupyog_data=ReupyogSerializer(category,context={'request':request})
+            return Response({"ReUpyog":reupyog_data.data})
+        except Exception as e:
+            print(e)
+            return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 def index(request):
     return render(request,'index.html')
+
+
 
