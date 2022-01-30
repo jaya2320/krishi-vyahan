@@ -18,7 +18,8 @@ class LabDetails(APIView):
         try:
             labs = Lab.objects.all()
             lab_data = LabSerializer(labs,many=True)
-            return Response({'lab':lab_data.data})
+            print("lab_data--------",lab_data)
+            return Response({'lab_serializer':lab_data.data})
         except Exception as e:
             print(e)
             return Response({'status': str(e)}, status=status.HTTP_400_BAD_REQUEST)
