@@ -1,11 +1,11 @@
 databases:
-  - name: krishi-vyahan
-    databaseName: krishi-vyahan
-    user: krishi-vyahan
+  - name: krishiVyahan
+    databaseName: krishiVyahan
+    user: krishiVyahan
 
 services:
   - type: web
-    name: krishi-vyahan
+    name: krishiVyahan
     env: python
     buildCommand: "./build.sh"
     startCommand: "gunicorn mysite.wsgi:application"
