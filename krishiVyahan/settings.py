@@ -25,11 +25,13 @@ FILE_CHARSET = 'utf-16'
 SECRET_KEY = 'hbq$jy@+_49$61k-1ngp9j3l@1j0%p^&nx%r!8(pwq^&_f4i&y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
-
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,16 +80,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'krishiVyahan.wsgi.application'
 
+import dj_database_url
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+DATABASES = {
+    'default': dj_database_url.config(
+        # Feel free to alter this value to suit your needs.
+        default='postgresql://postgres:postgres@localhost:5432/krishi-vyahan',
+        conn_max_age=600
+    )
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -136,3 +149,20 @@ import django_heroku
 django_heroku.settings(locals())
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+# This setting tells Django at which URL static files are going to be served to the user.
+# Here, they well be accessible at your-domain.onrender.com/static/...
+STATIC_URL = '/static/'
+
+# Following settings only make sense on production and may break development environments.
+if not DEBUG:
+    # Tell Django to copy statics to the `staticfiles` directory
+    # in your application directory on Render.
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    # Turn on WhiteNoise storage backend that takes care of compressing static files
+    # and creating unique names for each version so they can safely be cached forever.
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
